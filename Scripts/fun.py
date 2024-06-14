@@ -2,16 +2,11 @@ import os
 import time
 import random
 import urllib.request
-import requests
-import certifi
 from functools import wraps
 from urllib.error import URLError, HTTPError
 from ssl import SSLError
 
-def ssl_setting(original_img_src):
-    requests.get(original_img_src, verify=certifi.where())
-
-def retry(ExceptionToCheck, tries=4, delay=2+random.random(), backoff=2, logger=None):
+def retry(ExceptionToCheck, tries = 3, delay = 2+random.random(), backoff = 2, logger=None):
     """Retry calling the decorated function using an exponential backoff.
 
     http://www.saltycrane.com/blog/2009/11/trying-out-retry-decorator-python/
@@ -47,6 +42,12 @@ def retry(ExceptionToCheck, tries=4, delay=2+random.random(), backoff=2, logger=
         return f_retry # true decorator
     return deco_retry
 
+def error(filename, query, i, num_images, e):
+    if not os.path.exists(filename):
+        print(f"{i+1}번째 이미지 처리 중 오류 발생: {e}")
+    else:
+        print(f"{query} : {i + 1}/{num_images} 이미지 다운로드 완료...")
+
 def create_save_folder(query):
     if not os.path.exists('images'):
         os.makedirs('images')
@@ -65,11 +66,20 @@ def file_extention_f(original_img_src, query, i):
         file_extension = 'png'
     if file_extension == 'net':
         file_extension = 'png'
+    if file_extension == 'do':
+        file_extension = 'png'
     filename = f'images\{query}\{query}_{i + 1}.{file_extension}'
     return filename
 
 @retry((TimeoutError, URLError, HTTPError, SSLError), tries=3, delay=2+random.random(), backoff=2)
 def image_download(original_img_src, filename, query, i, num_images):
-    ssl_setting(original_img_src)
-    urllib.request.urlretrieve(original_img_src, filename)
-    print(f"{query} : {i + 1}/{num_images} 이미지 다운로드 완료...")
+    try:
+        urllib.request.urlretrieve(original_img_src, filename)
+        print(f"{query} : {i + 1}/{num_images} 이미지 다운로드 완료...")
+    except Exception as e:
+        try:
+            original_img_src = original_img_src.replace('https', 'http')
+            urllib.request.urlretrieve(original_img_src, filename)
+            print(f"{query} : {i + 1}/{num_images} 이미지 다운로드 완료...")
+        except Exception as e:
+            error(filename, query, i, num_images, e)
