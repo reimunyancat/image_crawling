@@ -6,7 +6,7 @@ from selenium.common.exceptions import NoSuchElementException
 from Scripts.fun import create_save_folder, image_limit_check, file_extention_f, image_download, error
 
 pause = 0.5
-click_pause = 0.4
+click_pause = 0.3
 scroll_pause_time = 1.7
 success_count = 0
 
