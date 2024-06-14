@@ -1,14 +1,14 @@
 import time
 import urllib.request
-import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from Scripts.fun import create_save_folder, image_limit_check, file_extention_f, image_download
+from Scripts.fun import create_save_folder, image_limit_check, file_extention_f, image_download, error
 
 pause = 0.5
 click_pause = 0.4
 scroll_pause_time = 1.7
+success_count = 0
 
 # HTTP 헤더 설정
 opener = urllib.request.build_opener()
@@ -80,6 +80,7 @@ while True:
 
             # 이미지 다운로드
             image_download(original_img_src, filename, query, i, num_images)
+            success_count += 1
 
         except NoSuchElementException:
             try:
@@ -90,16 +91,15 @@ while True:
                 filename = file_extention_f(original_img_src, query, i)
 
                 image_download(original_img_src, filename, query, i, num_images)
+                success_count += 1
             except Exception as e:
-                print(f"{i+1}번째 이미지 처리 중 오류 발생: {e}")
+                error(filename, query, i, num_images, e)
 
         except Exception as e:
-            if not os.path.exists(filename):
-                print(f"{i+1}번째 이미지 처리 중 오류 발생: {e}")
-            else:
-                print(f"{query} : {i + 1}/{num_images} 이미지 다운로드 완료...")
+            error(filename, query, i, num_images, e)
 
     driver.quit()
+    print(f"{query} 검색어 이미지 수집 완료. 성공한 이미지 수: {success_count}")
     print("작업 완료 'exit' 입력시 종료 아니면 다시 반복합니다.")
     wa = input()
     if wa == 'exit':
