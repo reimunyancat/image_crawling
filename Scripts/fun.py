@@ -68,6 +68,8 @@ def file_extention_f(original_img_src, query, i):
         file_extension = 'png'
     if file_extension == 'do':
         file_extension = 'png'
+    if file_extension == 'kr':
+        file_extension = 'png'
     filename = f'images\{query}\{query}_{i + 1}.{file_extension}'
     return filename
 
