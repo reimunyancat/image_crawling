@@ -62,7 +62,7 @@ def image_limit_check(i, num_images, images):
 def file_extention_f(original_img_src, query, i):
     # 확장자 설정&파일경로 설정
     file_extension = original_img_src.rsplit('.', 1)[-1].split('/', 1)[0].split('?', 1)[0]
-    if file_extension in ['com', 'net', 'do', 'kr']:
+    if file_extension in ['com', 'net', 'do', 'kr', 'data']:
         file_extension = 'png'
     filename = f'images\{query}\{query}_{i + 1}.{file_extension}'
     return filename
