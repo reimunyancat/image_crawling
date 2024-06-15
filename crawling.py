@@ -28,6 +28,34 @@ while True:
     chrome_options.add_argument('--ignore-ssl-errors')
     driver = webdriver.Chrome(options=chrome_options)
 
+    driver.get("https://www.google.com/preferences?hl=ko&prev=https://www.google.com/search?q%3D%25E3%2585%2587%26sca_esv%3Dcde25c42fe00d5a3%26sca_upv%3D1#tabVal=1")
+    time.sleep(pause)
+
+    s1 = driver.find_element(By.CSS_SELECTOR, "body > div:nth-child(2) > div.iORcjf > div:nth-child(2) > div:nth-child(2) > div.HrFxGf > div > div > div > div").click()
+    time.sleep(pause)
+
+    s1 = driver.find_element(By.CSS_SELECTOR, "body > div.iORcjf > div:nth-child(2) > div > div:nth-child(2) > div > div:nth-child(2) > div > div:nth-child(2) > div.HrqWPb > div").click()
+    time.sleep(pause)
+
+    s1 = driver.find_element(By.CSS_SELECTOR, "#lb > div > div.mcPPZ.nP0TDe.xg7rAe.ivkdbf > span > div > g-text-field > div.WO1lOd > div.FFTibe > input")
+    s1.click()
+    time.sleep(pause)
+    s1.send_keys("미국")
+
+    s1 = driver.find_element(By.CSS_SELECTOR, "#lb > div > div.mcPPZ.nP0TDe.xg7rAe.ivkdbf > span > div > g-menu > g-menu-item:nth-child(53) > div").click()
+    time.sleep(pause)
+
+    s1 = driver.find_element(By.CSS_SELECTOR, "#lb > div > div.mcPPZ.nP0TDe.xg7rAe.ivkdbf > span > div > div.JhVSze > span:nth-child(2)").click()
+    time.sleep(pause)
+
+    driver.get("https://www.google.com/preferences?hl=ko&prev=https://www.google.com/search%3Fq%3D%25E3%2585%2587%26sca_esv%3Dcde25c42fe00d5a3%26sca_upv%3D1")
+    s2 = driver.find_element(By.CSS_SELECTOR, "body > div:nth-child(2) > div.iORcjf > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div > div > div > div").click()
+    time.sleep(pause)
+
+    s2 = driver.find_element(By.XPATH, "/html/body/div[1]/div[2]/g-radio-button-group/div[3]/div[3]")
+    s2.click()
+    time.sleep(pause)
+
     driver.get("https://www.google.com/imghp")
 
     # 검색어 입력 및 검색 수행
@@ -57,7 +85,7 @@ while True:
     time.sleep(1)
 
     # 이미지 요소 탐색
-    images = driver.find_elements(By.CSS_SELECTOR, ".YQ4gaf")
+    images = driver.find_elements(By.CSS_SELECTOR, ".mNsIhb")
     print(f"총 {len(images)}개의 이미지를 찾았습니다.")
 
     # 이미지 다운로드
@@ -72,7 +100,7 @@ while True:
             time.sleep(click_pause)
 
             # 큰 이미지 URL 가져오기
-            original_img_element = driver.find_element(By.XPATH, '//*[@id="Sva75c"]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div/div/div[3]/div[1]/a/img[1]')
+            original_img_element = driver.find_element(By.XPATH, '/html/body/div[6]/div/div/div/div/div/div/c-wiz/div/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div[3]/div[1]/a/img[1]')
             original_img_src = original_img_element.get_attribute('src')
 
             # 파일명 설정
@@ -85,7 +113,7 @@ while True:
         except NoSuchElementException:
             try:
                 print(f"{i+1}번째 이미지 처리 중 오류 발생: NoSuchElementException\n다시 시도합니다.")
-                original_img_element = driver.find_element(By.XPATH, '/html/body/div[2]/c-wiz/div[3]/div[2]/div[3]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div/div/div/div[3]/div[1]/a/img[1]')
+                original_img_element = driver.find_element(By.XPATH, '//*[@id="Sva75c"]/div[2]/div[2]/div[2]/div[2]/c-wiz/div/div[3]/div[1]/a/img[1]')
                 original_img_src = original_img_element.get_attribute('src')
 
                 filename = file_extention_f(original_img_src, query, i)
