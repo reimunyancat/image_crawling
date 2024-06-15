@@ -55,8 +55,8 @@ def create_save_folder(query):
         os.makedirs(f'images\{query}', exist_ok=True)
         print(f"'{query}' 폴더 생성 완료...")
 
-def image_limit_check(i, num_images, images):
-    if i >= num_images or i >= len(images):
+def image_limit_check(i, num_images):
+    if i >= num_images:
         return True
 
 def file_extention_f(original_img_src, query, i):
