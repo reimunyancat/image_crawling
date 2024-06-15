@@ -90,9 +90,10 @@ while True:
 
     # 이미지 다운로드
     for i in range(0, num_images):
-        if image_limit_check(i, num_images, images):
+        if num_images > len(images): num_images = len(images)
+        if image_limit_check(i, num_images):
             break
-
+        
         try:
             # 이미지를 클릭하여 큰 이미지가 표시되도록 함
             img_element = driver.find_elements(By.CSS_SELECTOR, ".mNsIhb")[i]
